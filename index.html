@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Vocabulary</title>
+
+<style>
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #1b1f23;
+  --muted: #6a737d;
+  --accent: #2563eb;
+  --accent2: #10b981;
+  --border: #e5e7eb;
+  --base-font: 18px;
+}
+
+:root.dark {
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9aa4b2;
+  --accent:#60a5fa;
+  --accent2:#34d399;
+  --border:#1f2937;
+}
+
+:root.amoled {
+  --bg:#000;
+  --card:#000;
+  --text:#e5e7eb;
+  --muted:#9aa4b2;
+  --accent:#60a5fa;
+  --accent2:#34d399;
+  --border:#111;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: var(--base-font);
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
+}
+
+.app-header h1 {
+  font-size: 17px;
+  margin: 0;
+}
+
+.app-header button {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  padding: 16px;
+  max-width: 680px;
+  margin: auto;
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+}
+
+.word-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.meaning {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.examples {
+  margin-top: 12px;
+  padding-left: 18px;
+}
+
+.examples li {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+
+/* ---------- Audio ---------- */
+.audio-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.audio-status {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.examples li {
+  transition: background 0.2s;
+}
+
+.examples li.speaking {
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 6px;
+}
+
+
+/* ---------- Buttons ---------- */
+.btn {
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+
+.btn.secondary {
+  background: transparent;
+}
+
+/* ---------- Navigation (Sticky Bottom) ---------- */
+.controls {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  padding: 12px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+/* ---------- Actions ---------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+/* ---------- Progress ---------- */
+.progress {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(16,185,129,.15);
+  overflow: hidden;
+}
+
+.progress .bar {
+  height: 100%;
+  width: 0;
+  background: var(--accent2);
+}
+
+.progress small {
+  display: block;
+  margin-top: 6px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Dialog ---------- */
+dialog {
+  width: min(520px, 92vw);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+dialog form {
+  padding: 14px;
+}
+
+dialog .row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+dialog menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ---------- speakBtn ---------- */
+#speakBtn {
+  background: linear-gradient(90deg, #10b981, #34d399);
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+
+#speakBtn:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#speakBtn:active {
+  transform: scale(0.96);
+}
+
+
+/* ---------- Footer ---------- */
+.footer {
+  text-align: center;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 420px) {
+  .word { font-size: 22px; }
+  .btn { padding: 12px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+  <h1>Vocabulary</h1>
+  <button id="menuBtn">⚙️</button>
+</header>
+
+<main class="container">
+
+<section class="card" aria-live="polite">
+  <div class="word-row">
+    <span class="word" id="word">Word</span>
+    <span class="badge" id="counter">0 / 0</span>
+  </div>
+
+  <p class="meaning" id="meaning">Meaning</p>
+  <ul class="examples" id="examples"></ul>
+
+  <div class="audio-row">
+    <button id="playAudioBtn" class="btn secondary">🔊 Speak</button>
+    <span class="audio-status" id="audioStatus">Audio: ready</span>
+  </div>
+</section>
+
+<section class="actions">
+  <button id="shuffleBtn" class="btn secondary">Shuffle</button>
+  <button id="hideMeaningBtn" class="btn secondary">Hide Meaning</button>
+  <button id="hideExamplesBtn" class="btn secondary">Hide Examples</button>
+  <button id="markKnownBtn" class="btn secondary">Known ✅</button>
+  <button id="resetKnownBtn" class="btn secondary">Reset</button>
+</section>
+
+<section class="progress">
+  <div class="bar" id="progressBar"></div>
+  <small id="progressText">0 known</small>
+</section>
+
+<section class="controls">
+  <button id="prevBtn" class="btn secondary">⟵ Prev</button>
+  <button id="randomBtn" class="btn primary">🔀 Random</button>
+  <button id="nextBtn" class="btn secondary">Next ⟶</button>
+</section>
+
+<button id="speakBtn" class="btn secondary">🎤 Speak Word</button>
+<span id="speechStatus" class="audio-status">Say the word!</span>
+
+</main>
+
+
+
+<dialog id="settingsDialog">
+  <form method="dialog">
+    <h2>Settings</h2>
+
+    <label class="row">
+      <span>Theme</span>
+      <select id="themeSelect">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="amoled">AMOLED</option>
+      </select>
+    </label>
+
+    <label class="row">
+      <span>Font size</span>
+      <input id="fontSize" type="range" min="16" max="24" />
+    </label>
+
+    <menu>
+      <button class="btn secondary">Close</button>
+    </menu>
+  </form>
+</dialog>
+
+<footer class="footer">
+  Made for spoken English practice
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
