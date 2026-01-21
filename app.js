@@ -60,6 +60,19 @@ function render() {
 
   dom.word.textContent = item.word || '';
   dom.meaning.textContent = state.hideMeaning ? '••••••••' : item.meaning || '';
+
+  dom.meaning.style.cursor = 'pointer';
+  dom.meaning.title = 'Tap to hear pronunciation';
+
+  dom.meaning.onclick = () => {
+    if (!state.hideMeaning && item.meaning) {
+      speakText(item.meaning);
+      dom.meaning.classList.add('speaking');
+      setTimeout(() => dom.meaning.classList.remove('speaking'), 600);
+    }
+  };
+
+
   dom.examples.innerHTML = '';
 
   if (!state.hideExamples && Array.isArray(item.examples)) {
@@ -194,9 +207,12 @@ function speakText(text) {
 }
 
 /* ---------------------- Speech Recognition ---------------------------- */
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+window.SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
 let recognition = null;
 let listening = false;
+let listenTimeout = null;
 
 if (window.SpeechRecognition) {
   recognition = new SpeechRecognition();
@@ -216,38 +232,58 @@ if (window.SpeechRecognition) {
       dom.speechStatus.textContent = `❌ Try again. You said: "${spoken}"`;
     }
 
-    listening = false;
-    dom.speakBtn.textContent = '🎤 Speak Word';
+    cleanupListening();
 
-    // Keep feedback visible for 2.5s
     setTimeout(() => {
       dom.speechStatus.textContent = 'Say the word!';
-    }, 3000);
+    }, 4000);
   });
 
   recognition.addEventListener('end', () => {
-    listening = false;
-    dom.speakBtn.textContent = '🎤 Speak Word';
+    cleanupListening();
+  });
+
+  recognition.addEventListener('error', () => {
+    cleanupListening();
   });
 
   dom.speakBtn?.addEventListener('click', () => {
     if (!listening) {
       recognition.start();
       listening = true;
+
       dom.speechStatus.textContent = 'Listening... 🎧';
       dom.speakBtn.textContent = '🛑 Stop Listening';
+
+      // ⏱️ Force stop after 2 seconds
+      listenTimeout = setTimeout(() => {
+        if (listening) {
+          recognition.stop();
+        }
+      }, 2000);
     } else {
       recognition.stop();
-      listening = false;
-      dom.speakBtn.textContent = '🎤 Speak Word';
-      dom.speechStatus.textContent = 'Stopped';
     }
   });
+
 } else {
   dom.speakBtn?.addEventListener('click', () => {
     alert("Speech recognition not supported in this browser.");
   });
 }
+
+/* ---------------------- Helpers ---------------------------- */
+function cleanupListening() {
+  listening = false;
+
+  if (listenTimeout) {
+    clearTimeout(listenTimeout);
+    listenTimeout = null;
+  }
+
+  dom.speakBtn.textContent = '🎤 Speak Word';
+}
+
 
 /* ------------------------- Theme & Font ------------------------------- */
 function applyTheme(theme) {
